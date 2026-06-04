@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Formulario POST</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Mensaje:</label>
+        <input type="text" name="mensaje">
+        <button type="submit">Enviar</button>
+
+    </form>
+
+    {% if texto %}
+        <h2>Mensaje recibido:</h2>
+        <p>{{ texto }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Nuevo autor</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <p>
+            <label for="nombre">Apellido y nombres:</label><br>
+            <input type="text" id="nombre" name="nombre" maxlength="30" value="{{ autor.nombre }}" required>
+        </p>
+
+        <p>
+            <label for="nacionalidad">Nacionalidad:</label><br>
+            <input type="text" id="nacionalidad" name="nacionalidad" value="{{ autor.nacionalidad }}" maxlength="30">
+        </p>
+
+        <p>
+            <label for="fecNacimiento">Fecha de nacimiento:</label><br>
+            <input type="date" id="fecNacimiento" name="fecNacimiento" value="{{ autor.fecNacimiento|date:'Y-m-d' }}">
+        </p>
+
+        <p>
+            <label for="fecDefuncion">Fecha de defunción:</label><br>
+            <input type="date" id="fecDefuncion" name="fecDefuncion" value="{{ autor.fecDefuncion|date:'Y-m-d' }}">
+        </p>
+
+        <p>
+            <label for="comentarios">Comentarios:</label><br>
+            <textarea id="comentarios" name="comentarios" rows="4">{{ autor.comentarios }}</textarea>
+        </p>
+
+        <p>
+            <label>
+                <input type="checkbox" name="activo" {% if autor.activo %}checked{% endif %}>
+                Activo
+            </label>
+        </p>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+</body>
+</html>

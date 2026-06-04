@@ -1,0 +1,29 @@
+# Entorno virtual
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+
+# Base de datos
+db.sqlite3
+
+# Archivos estáticos generados
+staticfiles/
+
+# Media
+media/
+
+# Variables locales
+.env
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Migraciones (opcional para ejemplos)
+# */migrations/*
+# !*/migrations/__init__.py
