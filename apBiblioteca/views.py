@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from apBiblioteca.models import Autor
+from django.urls import reverse_lazy
+
+from apBiblioteca.models import Autor, Libro
+from .forms import AutorForm, LibroForm
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.db.models import Q
 
 def index(request):
-    return render(request, 'apBiblioteca/index.html')
+    return render(request, 'apBiblioteca/bootstrap.html')
 
 
 def index2(request):
@@ -54,6 +59,7 @@ def mensaje(request):
 
 
 def autorAgregar(request):
+    # Agregar Autor Form en template.
 
     if request.method == 'POST':
 
@@ -76,6 +82,7 @@ def autorAgregar(request):
 
 
 def autorModificar(request, id):
+    # Modificar Autor Form en template.
 
     autor = get_object_or_404(Autor, id=id)
 
@@ -100,15 +107,53 @@ def autorModificar(request, id):
 
 
 def autorBorrar(request, id):
+    # Borrar Autor sin confirmación.
 
     autor = get_object_or_404(Autor, id=id)
-
     autor.delete()
-
     return redirect('index2')
 
 
+def autorAgregar2(request):
+    # Agregar Autor Form en Forms.py.
+
+    if request.method == "POST":
+        form = AutorForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('index2')
+
+    else:
+        form = AutorForm()
+
+    return render(request, "apBiblioteca/autorform2.html", {
+        "form": form
+    })
+
+
+def autorModificar2(request, id):
+    # Modificar Autor Form en Forms.py.
+
+    autor = get_object_or_404(Autor, id=id)
+
+    if request.method == "POST":
+        form = AutorForm(request.POST, instance=autor)
+
+        if form.is_valid():
+            form.save()
+            return redirect('index2')
+
+    else:
+        form = AutorForm(instance=autor)
+
+    return render(request, "apBiblioteca/autorform2.html", {
+        "form": form
+    })
+
+
 def autorBorrar2(request, id):
+    # Borrar Autor con confirmación.
 
     autor = get_object_or_404(Autor, id=id)
 
@@ -125,3 +170,68 @@ def autorBorrar2(request, id):
         'apBiblioteca/autorconfborrado.html',
         contexto
     )
+
+
+class AutorCreateView(CreateView):
+    model = Autor
+    form_class = AutorForm
+    template_name = 'apBiblioteca/autorform2.html'
+    success_url = '/'
+
+
+class AutorUpdateView(UpdateView):
+    model = Autor
+    form_class = AutorForm
+    template_name = 'apBiblioteca/autorform2.html'
+    success_url = '/'
+
+
+class AutorDeleteView(DeleteView):
+    model = Autor
+    form_class = AutorForm
+    template_name = 'apBiblioteca/autorconfborrado.html'
+    success_url = '/'
+
+
+class LibrosLista(ListView):
+    model = Libro
+    template_name = 'apBiblioteca/libroslista.html'
+    context_object_name = 'libros'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(Q(titulo__icontains=query))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Enviar el valor de la búsqueda al contexto
+        return context
+
+
+class LibroDetalle(DetailView):
+    model = Libro
+    template_name = 'apBiblioteca/librodetalle.html'
+    context_object_name = 'libro'
+
+
+class LibroAgregar(CreateView):
+    model = Libro
+    form_class = LibroForm
+    template_name = 'apBiblioteca/libroform.html'
+    success_url = reverse_lazy('libroslista')
+
+
+class LibroModificar(UpdateView):
+    model = Libro
+    form_class = LibroForm
+    template_name = 'apBiblioteca/libroform.html'
+    success_url = reverse_lazy('libroslista')
+
+
+class LibroBorrar(DeleteView):
+    model = Libro
+    template_name = 'apBiblioteca/libroborrar.html'
+    success_url = reverse_lazy('libroslista')
