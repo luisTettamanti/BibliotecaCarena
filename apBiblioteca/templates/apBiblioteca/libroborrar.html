@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div id="contenido" class="container">
+
+        <h2 class="titulo pb-3">Eliminar Libro</h2>
+        <p>¿Estás seguro que deseas eliminar <b>{{ libro.titulo }}</b>?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Sí, eliminar</button>
+            <a class="btn btn-primary" href="{% url 'libroslista' %}">Cancelar</a>
+        </form>
+
+    </div>
+{% endblock %}

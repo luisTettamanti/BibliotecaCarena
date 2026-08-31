@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div id="contenido" class="container">
+        <h2 class="titulo pb-3">{{ libro.titulo }}</h2>
+        <p><strong>categoría:</strong> {{ libro.autor }}</p>
+        <p><strong>cantidad:</strong> {{ libro.editorial }}</p>
+        <p><strong>comentarios:</strong> {{ libro.anioPub }}</p>
+        <p><strong>comentarios:</strong> {{ libro.comentarios }}</p>
+        <a class="btn btn-primary mt-3" href="{% url 'libroslista' %}">Volver a la lista</a>
+    </div>
+{% endblock %}
