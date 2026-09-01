@@ -197,12 +197,17 @@ class LibrosLista(ListView):
     model = Libro
     template_name = 'apBiblioteca/libroslista.html'
     context_object_name = 'libros'
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
         if query:
-            queryset = queryset.filter(Q(titulo__icontains=query))
+            # queryset = queryset.filter(Q(titulo__icontains=query))
+            queryset = queryset.filter(
+                Q(titulo__icontains=query) |
+                Q(autor__nombre__icontains=query)
+            )
         return queryset
 
     def get_context_data(self, **kwargs):
