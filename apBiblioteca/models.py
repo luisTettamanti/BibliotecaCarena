@@ -15,8 +15,8 @@ class Autor(models.Model):
         ordering = ['nombre']
 
 class Libro(models.Model):
-    titulo = models.CharField(max_length=40, help_text="Título del libro", verbose_name="Apellido y Nombres")
-    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=40, help_text="Título del libro")
+    autor = models.ManyToManyField(Autor)
     editorial = models.CharField(max_length=30, help_text="Editorial del libro", blank=True, null=True)
     anioPub = models.IntegerField(help_text="Año de publicación", blank=True, null=True)
     comentarios = models.TextField(help_text="Comentarios referidos al libro", blank=True, null=True)

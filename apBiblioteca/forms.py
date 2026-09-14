@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import inlineformset_factory
 from .models import Autor, Libro
 
 class AutorForm(forms.ModelForm):
@@ -61,7 +62,6 @@ class LibroForm(forms.ModelForm):
 
         fields = (
             'titulo',
-            'autor',
             'editorial',
             'anioPub',
             'comentarios',
@@ -74,10 +74,6 @@ class LibroForm(forms.ModelForm):
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': 'form-control'
-            }),
-
-            'autor': forms.Select(attrs={
-                'class': 'form-select'
             }),
 
             'editorial': forms.DateInput(attrs={
@@ -93,3 +89,24 @@ class LibroForm(forms.ModelForm):
                 'rows': 4
             }),
         }
+
+
+class LibroAutorForm(forms.ModelForm):
+    class Meta:
+        model = Libro.autor.through
+        fields = ['autor']
+
+        widgets = {
+            'autor': forms.Select(
+                attrs={'class': 'form-select'}
+            )
+        }
+
+
+LibroAutorFormSet = inlineformset_factory(
+    Libro,
+    Libro.autor.through,
+    form=LibroAutorForm,
+    extra=1,
+    can_delete=True
+)

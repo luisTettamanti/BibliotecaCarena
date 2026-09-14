@@ -11,6 +11,38 @@
 
             {{ form.as_p }}
 
+            <h3>Autores</h3>
+
+            {{ formset.management_form }}
+
+<!--            {% for f in formset %}-->
+<!--                {{ f.as_p }}-->
+<!--            {% endfor %}-->
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Autor</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for form in formset %}
+
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        <tr>
+                            <td>{{ form.autor }}</td>
+                            <td>{{ form.DELETE }}</td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
             <button type="submit" class="btn btn-primary">
                 Guardar
             </button>

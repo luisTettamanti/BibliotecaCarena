@@ -38,7 +38,11 @@
                 <tr style="cursor:pointer;" onclick="window.location.href='{% url 'librodetalle' l.id %}'">
                     <td class="align-middle d-none d-lg-table-cell">{{ l.id }}</td>
                     <td class="align-middle">{{ l.titulo }}</td>
-                    <td class="align-middle d-none d-md-table-cell">{{ l.autor }}</td>
+                    {% if l.autor.all|length == 1 %}
+                        <td class="align-middle d-none d-md-table-cell">{{ l.autor.first }}</td>
+                    {% elif l.autor.all|length > 1 %}
+                        <td class="align-middle d-none d-md-table-cell">{{ l.autor.first }} y otros</td>
+                    {% endif %}
                     <td class="align-middle d-none d-lg-table-cell">{{ l.editorial }}</td>
                     <td class="align-middle d-none d-lg-table-cell">{{ l.anioPub }}</td>
                     <td class="align-middle">
