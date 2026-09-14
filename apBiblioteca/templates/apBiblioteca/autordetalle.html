@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div id="contenido" class="container">
+        <h2 class="titulo pb-3">{{ autor.nombre }}</h2>
+        <p><strong>categoría:</strong> {{ autor.nacionalidad }}</p>
+        <p><strong>cantidad:</strong> {{ autor.fecNacimiento }}</p>
+        <p><strong>comentarios:</strong> {{ autor.fecDefuncion }}</p>
+        <p><strong>comentarios:</strong> {{ autor.comentarios }}</p>
+        <a class="btn btn-primary mt-3" href="{% url 'autoreslista' %}">Volver a la lista</a>
+    </div>
+{% endblock %}
